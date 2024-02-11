@@ -150,12 +150,15 @@ public class CSV_reader : MonoBehaviour
         }
     }
 
-    void DrawLinebetweenStars(Vector3 star_01Pos, Vector3 star_02Pos)
+    void DrawLinebetweenStars(Vector3 star_01Pos, Vector3 star_02Pos,Material randMaterial)
     {
+
+
         GameObject lineRendererObject = new GameObject("LineRenderer");
         LineRenderer lineRenderer = lineRendererObject.AddComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = randMaterial;
+        lineRenderer.startWidth = 0.06f;
+        lineRenderer.endWidth = 0.06f;
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, star_01Pos);
         lineRenderer.SetPosition(1, star_02Pos);
@@ -181,6 +184,18 @@ public class CSV_reader : MonoBehaviour
                     Debug.Log("length:" + values.Length);
                     if (values.Length > 2) //sanity check
                     {
+                        // Load materials from Resources folder
+                        Material aMat = Resources.Load<Material>("A_mat");
+                        Material bMat = Resources.Load<Material>("B_mat");
+                        Material fMat = Resources.Load<Material>("F_mat");
+                        Material gMat = Resources.Load<Material>("G_mat");
+                        Material kMat = Resources.Load<Material>("K_mat");
+                        Material mMat = Resources.Load<Material>("M_mat");
+                        Material oMat = Resources.Load<Material>("O_mat");
+                        // Select a random material
+                        Material[] materials = { aMat, bMat, fMat, gMat, kMat, mMat, oMat };
+                        Material randomMaterial = materials[Random.Range(0, materials.Length)];
+
                         int num_pairs = int.Parse(values[1]);
                         Debug.Log("constellation:" + values[0] + "num of pairs:" + num_pairs); ;
                         if (true)
@@ -198,7 +213,7 @@ public class CSV_reader : MonoBehaviour
 
                                 if (star_01 != null && star_02 != null)
                                 {
-                                    DrawLinebetweenStars(star_01.transform.position, star_02.transform.position);
+                                    DrawLinebetweenStars(star_01.transform.position, star_02.transform.position, randomMaterial);
                                 }
                             }
                         }
